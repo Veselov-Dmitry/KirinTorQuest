@@ -18,7 +18,7 @@ public class MainText : MonoBehaviour {
     {
         GameController.OnStarntLevel += GameController_OnStarntLevel;
         GameController.OnRelesLevel += GameController_OnRelesLevel;
-        CellGenerator.OnGetAllCell += CellGenerator_OnGetAllCell;
+        GameController.OnLevelComplite += GameController_OnLevelComplite;
         GameController.OnWinTheGame += GameController_OnWinTheGame;
     }
 
@@ -27,7 +27,7 @@ public class MainText : MonoBehaviour {
     {
         GameController.OnStarntLevel -= GameController_OnStarntLevel;
         GameController.OnRelesLevel -= GameController_OnRelesLevel;
-        CellGenerator.OnGetAllCell -= CellGenerator_OnGetAllCell;
+        GameController.OnLevelComplite -= GameController_OnLevelComplite;
         GameController.OnWinTheGame -= GameController_OnWinTheGame;
 
     }
@@ -36,7 +36,7 @@ public class MainText : MonoBehaviour {
         Show("Win The Game!");
     }
 
-    private void CellGenerator_OnGetAllCell()
+    private void GameController_OnLevelComplite()
     {
         Show("Finish!");
     }
@@ -52,11 +52,31 @@ public class MainText : MonoBehaviour {
 
     private void Show(string v)
     {
-        StopAllCoroutines();
-        _Text.text =  v;
-        _Text.fontSize = _fontSize;
-        _Text.color = _color;
-        _Coroutine = StartCoroutine(Vanishing());
+        if(_Coroutine != null)
+            StartCoroutine(WaitCoroutine(v));
+        else
+        {
+            _Text.text = v;
+            _Text.fontSize = _fontSize;
+            _Text.color = _color;
+            _Coroutine = StartCoroutine(Vanishing());
+        }
+    }
+
+    private IEnumerator WaitCoroutine(string v)
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(0.2f);
+            if(_Coroutine == null)
+            {
+                _Text.text = v;
+                _Text.fontSize = _fontSize;
+                _Text.color = _color;
+                _Coroutine = StartCoroutine(Vanishing());
+                break;
+            }
+        }
     }
 
     private IEnumerator Vanishing()
@@ -72,6 +92,7 @@ public class MainText : MonoBehaviour {
             _Text.color = new Color(_color.r, _color.g, _color.b, myAlpha);
         }
         StopCoroutine(_Coroutine);
+        _Coroutine = null;
     }
 
     void Start ()

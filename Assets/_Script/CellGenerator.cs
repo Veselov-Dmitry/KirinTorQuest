@@ -44,14 +44,13 @@ public class CellGenerator : MonoBehaviour
             foreach (var item in waysPoint)
             {
                 _Way.Enqueue(item);
-            }                  
+            }
         }
 
         internal bool StatusCell(Pos posit)
         {
             if(_Way.Peek().Compare(posit))
             {
-                print(posit.x + "  " +posit.z);
                 _Way.Dequeue();
                 return true;
             }
@@ -138,10 +137,12 @@ public class CellGenerator : MonoBehaviour
                 var obj = Instantiate(TemplateCell,gameObject.transform);
                 obj.name = "cell (" + i + "," + j + ")";
                 CellScript cs = obj.GetComponent<CellScript>();
+                Register(cs);
                 cs.posit.z =i;
                 cs.posit.x = j;
             }
         }
+
     }
     [ContextMenu("+++GenerateWay")]
     public void GenerateWay()
@@ -155,7 +156,7 @@ public class CellGenerator : MonoBehaviour
 
         foreach (Pos item in _CurentLevelPattern.Ways)
         {
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.5f);
             _Children[item].Show(false);
         }
         SetVisibleAll(true,false);

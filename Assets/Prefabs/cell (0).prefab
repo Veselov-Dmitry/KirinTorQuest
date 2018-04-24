@@ -110,7 +110,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b89299d246a68b14dab2cdab31fbc8f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _SmothOnHideShow: 0
+  _SmothOnHideShow: 0.03
   test: 0
 --- !u!119 &119078159446963696
 Projector:

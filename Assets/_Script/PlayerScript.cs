@@ -40,13 +40,11 @@ public class PlayerScript : MonoBehaviour {
     private float GetPositionY(Vector3 pos)
     { 
         float res =0;
-        print(pos);
         GameObject go = new GameObject();
         go.name = "Raycast";
         go.transform.position = new Vector3(pos.x + 1, pos.y+10, pos.z + 1);
         RaycastHit myhit = new RaycastHit();
         Ray ray = new Ray { origin = go.transform.position, direction = go.transform.up * -1 };
-        print(ray.direction);
         if(Physics.Raycast(ray, out myhit, 15))
         {
             res = myhit.point.y;

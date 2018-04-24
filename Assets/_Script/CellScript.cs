@@ -66,8 +66,8 @@ public class CellScript : MonoBehaviour
     private Collider _Col;
     private Projector _Projector;
     private Coroutine cooutine;
-    [Range(0,0.5f)]
-    public float _SmothOnHideShow;
+    [Range(0,1)]
+    public float _SmothOnHideShow = 0.5f;
     public bool test;
     private object _LerpingPower;
 
@@ -94,14 +94,23 @@ public class CellScript : MonoBehaviour
 
     void Start ()
     {
-        _SmothOnHideShow = 0.2f;
+        _SmothOnHideShow = 0.03f;
         CellGenerator.instance.Register(this);
         _Col = GetComponent<Collider>();
-        Hide();
+        Hide(true);
 
     }
 
     [ContextMenu("+++Hide")]
+    public void HideMenu()
+    {
+        Hide(false);
+    }
+    [ContextMenu("+++Show")]
+    public void ShowMenu()
+    {
+        Show(false);
+    }
     public void Hide(bool instantly = true)
     {
         if (_LerpingPower == null)
@@ -114,11 +123,10 @@ public class CellScript : MonoBehaviour
                 _LerpingPower = null;
             }
             else
-                cooutine = StartCoroutine(ProjectorSwitch(false));
+                cooutine = StartCoroutine(ProjectorHide());
         }
     }
 
-    [ContextMenu("+++Show")]
     public void Show(bool instantly = true)
     {
         if (_LerpingPower == null)
@@ -131,21 +139,32 @@ public class CellScript : MonoBehaviour
                 _LerpingPower = null;
             }
             else
-                cooutine = StartCoroutine(ProjectorSwitch(true));
+                cooutine = StartCoroutine(ProjectorShow());
         }
     }
 
-    private IEnumerator ProjectorSwitch(bool v)
+    private IEnumerator ProjectorShow()
     {
-        // start value
-        float endVal = (v) ? 1 : 0;
-        float curVal = _Projector.material.GetFloat("_Power");
-        do
+        float curVal = 0;
+        while (curVal < 0.9f)
         {
-            yield return new WaitForSeconds(0.1f);
-            _Projector.material.SetFloat("_Power", Mathf.Lerp(curVal,endVal, _SmothOnHideShow));
-            curVal = _Projector.material.GetFloat("_Power");
-        } while (curVal < 0.9 && curVal > 0.1f);
+            yield return new WaitForEndOfFrame();
+            curVal = Mathf.Lerp(curVal, 1, _SmothOnHideShow);
+            _Projector.material.SetFloat("_Power", curVal);
+        }
+        _LerpingPower = null;
+        StopCoroutine(cooutine);
+    }
+
+    private IEnumerator ProjectorHide()
+    {
+        float curVal = 1;
+        while (curVal > 0.1f)
+        {
+            yield return new WaitForEndOfFrame();
+            curVal = Mathf.Lerp(curVal, 0, _SmothOnHideShow);
+            _Projector.material.SetFloat("_Power", curVal);
+        }
         _LerpingPower = null;
         StopCoroutine(cooutine);
     }

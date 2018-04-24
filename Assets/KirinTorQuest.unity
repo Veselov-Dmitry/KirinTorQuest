@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44886, g: 0.49892563, b: 0.5756987, a: 1}
+  m_IndirectSpecularColor: {r: 0.44886017, g: 0.49892682, b: 0.57569927, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -89,7 +89,7 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaIndirect: 2
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ShowResolutionOverlay: 1
-  m_LightingDataAsset: {fileID: 112000002, guid: e33cc05a6dc821445918a8fbc0879544,
+  m_LightingDataAsset: {fileID: 112000002, guid: b3cfd19f9bbbf4b4db4db42f3f89c208,
     type: 2}
   m_UseShadowmask: 1
 --- !u!196 &4
@@ -403,7 +403,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 21.08, y: 22.53, z: 16.79}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 1042384093}
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -770,6 +771,11 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!4 &1042384093 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4153852643763812, guid: d26c0c1a6eaeb77468f9ea31ef842706,
+    type: 2}
+  m_PrefabInternal: {fileID: 1849669732}
 --- !u!1 &1093984463
 GameObject:
   m_ObjectHideFlags: 0
@@ -854,10 +860,10 @@ WindZone:
   m_Enabled: 1
   m_Mode: 1
   m_Radius: 21.89
-  m_WindMain: 1
-  m_WindTurbulence: 1
+  m_WindMain: 0.2
+  m_WindTurbulence: 0.2
   m_WindPulseMagnitude: 0.5
-  m_WindPulseFrequency: 0.01
+  m_WindPulseFrequency: 0.02
 --- !u!1 &1186283425
 GameObject:
   m_ObjectHideFlags: 0
@@ -1355,6 +1361,11 @@ Prefab:
       propertyPath: m_Target
       value: 
       objectReference: {fileID: 2119144943}
+    - target: {fileID: 114483907366690770, guid: 795d9a4f1a82ee84a95d442b5db5643b,
+        type: 2}
+      propertyPath: m_TurnSpeed
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 795d9a4f1a82ee84a95d442b5db5643b, type: 2}
   m_IsPrefabParent: 0
@@ -1423,6 +1434,52 @@ Transform:
   m_Father: {fileID: 1430479569}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1849669732
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 599720971}
+    m_Modifications:
+    - target: {fileID: 4153852643763812, guid: d26c0c1a6eaeb77468f9ea31ef842706, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4153852643763812, guid: d26c0c1a6eaeb77468f9ea31ef842706, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4153852643763812, guid: d26c0c1a6eaeb77468f9ea31ef842706, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4153852643763812, guid: d26c0c1a6eaeb77468f9ea31ef842706, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4153852643763812, guid: d26c0c1a6eaeb77468f9ea31ef842706, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4153852643763812, guid: d26c0c1a6eaeb77468f9ea31ef842706, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4153852643763812, guid: d26c0c1a6eaeb77468f9ea31ef842706, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4153852643763812, guid: d26c0c1a6eaeb77468f9ea31ef842706, type: 2}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1208941571415394, guid: d26c0c1a6eaeb77468f9ea31ef842706, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: d26c0c1a6eaeb77468f9ea31ef842706, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &1937099177
 GameObject:
   m_ObjectHideFlags: 0

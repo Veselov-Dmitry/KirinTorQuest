@@ -8,6 +8,7 @@ public class GameController : MonoBehaviour {
 
     public static event System.Action OnEnableFueld;
     public static event System.Action OnRelesLevel;
+    public static event System.Action OnLevelComplite; 
     public static event System.Action<int, int> OnStarntLevel;
     public static event Action OnWinTheGame;
 
@@ -35,8 +36,12 @@ public class GameController : MonoBehaviour {
     private void LevelComplite()
     {
         _Level++;
-        if(_Level < 10)
+        if (_Level < 10)
+        {
+            if(OnLevelComplite != null)
+                OnLevelComplite();
             StartLevel();
+        }
         else
             if(OnWinTheGame != null)
             {
@@ -52,7 +57,7 @@ public class GameController : MonoBehaviour {
         {
             OnEnableFueld();
         }
-        _Level = 3;
+        _Level = 0;
         _FieladInLevel = 7;
 	}
 	
