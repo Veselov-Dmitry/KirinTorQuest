@@ -18,12 +18,17 @@ public class FreeLookCam : PivotBasedCameraRig
     [SerializeField] private bool m_LockCursor = false;                   // Whether the cursor should be hidden and locked.
     [SerializeField] private bool m_VerticalAutoReturn = false;           // set wether or not the vertical axis should auto return
 
+    public float TurnSpeed { get { return m_TurnSpeed; } set { m_TurnSpeed = value; } }
+
+    public static FreeLookCam instance;
     private float m_LookAngle;                    // The rig's y axis rotation.
     private float m_TiltAngle;                    // The pivot's x axis rotation.
     private const float k_LookDistance = 100f;    // How far in front of the pivot the character's look target is.
     private Vector3 m_PivotEulers;
     private Quaternion m_PivotTargetRot;
     private Quaternion m_TransformTargetRot;
+    private bool m_ShowMenu;
+    private bool _ShowMenu;
 
     protected override void Awake()
     {
@@ -40,7 +45,8 @@ public class FreeLookCam : PivotBasedCameraRig
 
     protected void Update()
     {
-        if(Input.GetMouseButton(0) || Input.GetMouseButton(1))
+        if (_ShowMenu) return;
+        if (Input.GetMouseButton(1))
             HandleRotationMovement();
         if (m_LockCursor && Input.GetMouseButtonUp(0))
         {
@@ -49,9 +55,24 @@ public class FreeLookCam : PivotBasedCameraRig
         }
     }
 
+    private void OnEnable()
+    {
+        InputController.OnEscape += InputController_OnBackSpase;
+    }
+
+    private void Start()
+    {
+        instance = this;
+    }
+
+    private void InputController_OnBackSpase(bool obj)
+    {
+        _ShowMenu = obj;
+    }
 
     private void OnDisable()
     {
+        InputController.OnEscape -= InputController_OnBackSpase;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }

@@ -156,7 +156,7 @@ public class CellGenerator : MonoBehaviour
 
         foreach (Pos item in _CurentLevelPattern.Ways)
         {
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.9f);
             _Children[item].Show(false);
         }
         SetVisibleAll(true,false);

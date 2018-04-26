@@ -10,29 +10,36 @@ public class PlayerScript : MonoBehaviour {
     {
         GameController.OnStarntLevel += GameController_OnStarntLevel;
         CellGenerator.OnDemoPlayed += CellGenerator_OnDemoPlayed;
+        InputController.OnEscape += BlockPlayer;
     }
+
 
     private void OnDisable()
     {
         GameController.OnStarntLevel -= GameController_OnStarntLevel;
         CellGenerator.OnDemoPlayed -= CellGenerator_OnDemoPlayed;
+        InputController.OnEscape -= BlockPlayer;
     }
     void Start ()
     {
         instance=this;
     }
 
+    private void BlockPlayer(bool obj)
+    {
+        GetComponent<Collider>().enabled = !obj;
+        GetComponent<Rigidbody>().constraints = (!obj) ? RigidbodyConstraints.FreezeRotation : RigidbodyConstraints.FreezeAll;
+    }
+
     private void CellGenerator_OnDemoPlayed()
     {
-        GetComponent<Collider>().enabled = true;
-        GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
+        BlockPlayer(false);
     }
 
     private void GameController_OnStarntLevel(int level, int fields)
     {
         transform.Rotate(Vector3.forward);
-        GetComponent<Collider>().enabled = false;
-        GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+        BlockPlayer(true);
         Vector3 pos = CellGenerator.instance.gameObject.transform.position;
         gameObject.transform.position = new Vector3(pos.x + 1, GetPositionY(pos), pos.z + 1);
     }

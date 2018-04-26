@@ -83,4 +83,8 @@ public class GameController : MonoBehaviour {
             OnStarntLevel(_Level,_FieladInLevel);
         }
     }
+    public void ExitAplication()
+    {
+        Application.Quit();
+    }
 }

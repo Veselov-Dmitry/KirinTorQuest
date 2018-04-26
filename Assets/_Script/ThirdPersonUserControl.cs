@@ -9,36 +9,46 @@ public class ThirdPersonUserControl : MonoBehaviour
     private Vector3 m_CamForward;             // The current forward direction of the camera
     private Vector3 m_Move;
     private bool m_Jump;                      // the world-relative desired move direction, calculated from the camForward and user input.
-    private bool _PlayDemo;
+    private bool _PlayBlock;
+    private Animator _Animator;
 
     private void OnEnable()
     {
         GameController.OnStarntLevel += GameController_OnStarntLevel;
         CellGenerator.OnDemoPlayed += CellGenerator_OnDemoPlayed;
-    }
-
-    private void CellGenerator_OnDemoPlayed()
-    {
-        _PlayDemo = false;
-    }
-
-    private void GameController_OnStarntLevel(int level, int fields)
-    {
-
-        GetComponent<Animator>().SetFloat("Forward", 0);
-        GetComponent<Animator>().SetBool("OnGround", true);
-        GetComponent<Animator>().SetFloat("Jump", 2);
-        _PlayDemo = true;
+        InputController.OnEscape += InputController_OnBackSpase;
     }
 
     private void OnDisable()
     {
         GameController.OnStarntLevel -= GameController_OnStarntLevel;
         CellGenerator.OnDemoPlayed -= CellGenerator_OnDemoPlayed;
+        InputController.OnEscape -= InputController_OnBackSpase;
     }
+
+    private void InputController_OnBackSpase(bool obj)
+    {
+        _PlayBlock = obj;
+        _Animator.enabled = !obj;
+    }
+
+    private void CellGenerator_OnDemoPlayed()
+    {
+        _PlayBlock = false;
+    }
+
+    private void GameController_OnStarntLevel(int level, int fields)
+    {
+        _Animator.SetFloat("Forward", 0);
+        _Animator.SetBool("OnGround", true);
+        _Animator.SetFloat("Jump", 2);
+        _PlayBlock = true;
+    }
+
 
     private void Start()
     {
+        _Animator = GetComponent<Animator>();
         // get the transform of the main camera
         if (Camera.main != null)
         {
@@ -58,7 +68,7 @@ public class ThirdPersonUserControl : MonoBehaviour
 
     private void Update()
     {
-        if (_PlayDemo) return;
+        if (_PlayBlock) return;
         if (!m_Jump)
         {
             m_Jump = CrossPlatformInputManager.GetButtonDown("Jump");
@@ -93,7 +103,7 @@ public class ThirdPersonUserControl : MonoBehaviour
 
         // pass all parameters to the character control script
 
-        if (_PlayDemo) m_Move = Vector3.zero;
+        if (_PlayBlock) m_Move = Vector3.zero;
             m_Character.Move(m_Move, crouch, m_Jump);
         m_Jump = false;
     }

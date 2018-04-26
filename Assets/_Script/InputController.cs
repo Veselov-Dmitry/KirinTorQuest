@@ -8,17 +8,24 @@ public class InputController : MonoBehaviour
     public static event System.Action OnMouseOverNearTarget;
     public static event System.Action OnMouseTargetEmpty;
     public static event System.Action OnMouseUseBox;
+    public static event System.Action<bool> OnEscape;
 
     private RaycastHit hit;
     private Ray ray;
     private bool _NearTarget;
+    private bool m_ShowMenu = false;
 
-    void Start () {
-		
-	}
-	
-	void Update ()
+
+    void Update ()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            m_ShowMenu = !m_ShowMenu;
+            if (OnEscape != null)
+                OnEscape(m_ShowMenu);            
+        }
+        if (m_ShowMenu) return;
+
         _NearTarget = false;
         hit = new RaycastHit();
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
